@@ -6,6 +6,7 @@ const path = require("path");
 const { exec } = require("child_process");
 
 const projectRoot = "My-App";
+
 const foldersToCreate = [
   "controllers",
   "routes",
@@ -14,9 +15,13 @@ const foldersToCreate = [
   "public/img",
   "src/components",
   "src/views",
+  "src/views/pages",
   "src/services",
 ];
 
+console.log("Creating project structure...");
+
+//Código para crear las carpetas
 function createFolderStructure(rootPath, folders) {
   folders.forEach((folder) => {
     const folderPath = path.join(rootPath, folder);
@@ -25,28 +30,129 @@ function createFolderStructure(rootPath, folders) {
   });
 }
 
-// Create the project root folder
+// Crear la carpeta raíz del proyecto
 fs.mkdirSync(projectRoot, { recursive: true });
 console.log(`Created folder: ${projectRoot}`);
 
-// Create the folder structure inside the project root
+// Cree la estructura de carpetas dentro de la raíz del proyecto.
 createFolderStructure(projectRoot, foldersToCreate);
+
+/**
+ * Creando el archivo inicio.ejs
+ */
+const inicioFilePath = path.join(projectRoot, "src/views/inicio.ejs");
+/**
+ * Creando el archivo inicio.ejs en la carpeta src/views/inicio.ejs
+ * y agrengando un contenido básico
+ */
+const inicioContent = `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio</title>
+  </head>
+  <body>
+    <h1>Hola, estas en la página de Inicio</h1>
+  </body>
+</html>
+`;
+
+// Crear el archivo inicio.ejs
+fs.writeFileSync(inicioFilePath, inicioContent);
+console.log(`Created file: ${inicioFilePath}`);
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/**
+ * Creando el archivo about.ejs y agrenado un contenido
+ */
+const aboutContent = `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio</title>
+    <link
+      type="text/css"
+      rel="shortcut icon"
+      href="https://urianviera.com/img/icons/favicon-32x32.png" />
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+        margin: 0 auto;
+        background: #f0f0f0;
+      }
+      h1 {
+        background: #f0dd14;
+        text-align: center;
+        border-bottom: 1px solid #ccc;
+      }
+      p {
+        font-size: 30px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hola, estas en la página de about</h1>
+    <div class="centered"></div>
+
+    <div class="flex-container">
+      <p>Canal WebDeveloper - Urian Viera</p>
+    </div>
+  </body>
+</html>
+`;
+fs.writeFileSync(
+  path.join(projectRoot, "src/views/pages/about.ejs"),
+  aboutContent
+);
+console.log(`Created file: src/views/pages/about.ejs`);
 
 /**
  * Creando servidor con express
  */
 const serverCode = `
+//Importando el módulo 'express'
 const express = require('express');
+
+//Creando una nueva aplicación Express.
 const app = express();
+const path = require("path");
+
 const PORT = process.env.PORT || 3001;
 
-// Middleware para servir archivos estáticos desde la carpeta "public"
-app.use(express.static('public'));
+/**
+ * app.use Se utiliza para montar middlewares en la aplicación Express.
+ * Los middlewares son funciones que se ejecutan en el flujo de procesamiento de una solicitud antes
+ * de que se envíe una respuesta Middleware para servir archivos estáticos desde la carpeta "public"
+ */
+app.use(express.static(path.join(__dirname, "public")));
+
+/**
+ * Establecer EJS como el Motor de plantillas
+ * se utiliza para establecer la configuración de la aplicación Express. Puedes utilizar app.set 
+ * para configurar variables de entorno, ajustes específicos de la aplicación o valores personalizados. 
+ */
+app.set("view engine", "ejs"); 
+app.set("views", path.join(__dirname, "src/views"));
+
 
 // Ruta de ejemplo
 app.get('/', (req, res) => {
-  res.send('¡Hola, mundo!');
+  res.render("inicio");
 });
+
+// Ruta de about
+app.get("/about", (req, res) => {
+  res.render("pages/about");
+});
+
+
 
 // Iniciar el servidor
 app.listen(PORT, () => {
@@ -236,6 +342,32 @@ dist
 
 fs.writeFileSync(path.join(projectRoot, ".gitignore"), gitignoreContent);
 console.log(`Created file: .gitignore`);
+console.log("\x1b[32m%s\x1b[0m", "Project structure created successfully!");
+
+/**
+ * Importante
+ */
+console.log("\n\n");
+console.log("\x1b[32m%s\x1b[0m", "¡IMPORTANTE: Sigue estos pasos! \n");
+
+console.log("Inicia un proyecto en NodeJS...");
+console.log("Comando:", "\x1b[32mnpm init -y\x1b[0m");
+
+console.log("Instala el framework de express...");
+console.log("Comando:", "\x1b[32mnpm install express\x1b[0m");
+
+console.log("Instala Nodemon como dependencia de desarrollo...");
+console.log("Comando:", "\x1b[32mnpm install nodemon -D\x1b[0m");
+
+console.log("Instala Motor de plantilla EJS...");
+console.log("Comando:", "\x1b[32mnpm install ejs\x1b[0m");
+
+console.log("Corre proyecto con nodemon...");
+
+console.log(
+  "Comando:",
+  "\x1b[32mnodemon server.js\x1b[0m o puedes ejecutar \x1b[32mnode --watch server.js\x1b[0m"
+);
 
 /**
  * Luego de crear todo el scaffolding (Estructura) de la aplicación,
@@ -254,7 +386,7 @@ exec(`code ${projectPath}`, (error, stdout, stderr) => {
     console.error(`Error en la salida de Visual Studio Code: ${stderr}`);
     return;
   }
-  console.log("Proyecto abierto en Visual Studio Code.");
+  console.log("Open project in Visual Studio Code.");
 });
 
 /**
