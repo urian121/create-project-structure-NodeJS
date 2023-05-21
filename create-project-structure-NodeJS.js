@@ -262,9 +262,10 @@ exec(`code ${projectPath}`, (error, stdout, stderr) => {
  * la estructura del proyecto
  */
 // Obtener la ruta completa del archivo create-project-structure.js
-const scriptPath = path.join(__dirname, "create-project-structure.js");
 
+/*
+const scriptPath = path.join(__dirname, "create-project-structure.js");
 // Eliminar el archivo create-project-structure.js
 fs.unlinkSync(scriptPath);
-
 console.log("Archivo create-project-structure.js eliminado.");
+*/
