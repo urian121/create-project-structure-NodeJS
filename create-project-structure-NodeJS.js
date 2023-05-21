@@ -166,7 +166,10 @@ console.log(`Created file: server.js`);
 /**
  * Creando archivo README.MD
  */
-const readmeContent = `- /My-App
+const readmeContent = `
+- Estructura del Proyecto
+
+- /My-App
 - /node_modules
   - /controllers
   - /routes
@@ -183,9 +186,11 @@ const readmeContent = `- /My-App
 - package.json
 - .gitignore
 
+- Paso para inicial proyecto en NodeJS
 - npm init -y
 - npm install express
 - npm i ejs
+
 
 - node --watch server.js
 - nodemon server.js
@@ -196,11 +201,12 @@ const readmeContent = `- /My-App
 
 - Instalar nodemon como dependencia de desarrollo
     npm i nodemon -D
+    npm i -D nodemon
+    npm install nodemon --dev
+    npm install nodemon --save-dev
+    
 - Instalar nodemon de forma global:
     npm install -g nodemon
-    npm install nodemon --save-dev
-
-
 `;
 
 fs.writeFileSync(path.join(projectRoot, "README.md"), readmeContent);
