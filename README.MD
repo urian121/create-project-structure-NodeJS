@@ -8,4 +8,10 @@ Descarga el script y abre tu terminal (cmd). Ejecuta el archivo usando el comand
 
 ---
 
+![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/paso_1-ejecutar-archivo-con-node.PNG)
+
+---
+
+![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/resultado-final-estructura-con-node.PNG)
+
 ![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/structura-proyecto-nodeJS.PNG)
